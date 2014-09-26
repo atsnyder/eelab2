@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
@@ -162,7 +163,7 @@ public class GUI extends JFrame
 	
 	public void start()
 	{
-		int x;
+		int x = 0;
 		
 		timer = Calendar.getInstance();
 		
@@ -172,7 +173,14 @@ public class GUI extends JFrame
 		{
 			while(timer.getTimeInMillis() + 1000 > Calendar.getInstance().getTimeInMillis());//get data every second
 		
-			x = temperatures.get(0) + (rand.nextInt(3) - 1);
+			try {
+				
+				x = Integer.parseInt(SerialTest.input.readLine());
+				//x = Integer.getInteger(SerialTest.input.readLine());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}//temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
 
 			if(x > 50) x = 50;
 			if(x < 10) x = 10;
