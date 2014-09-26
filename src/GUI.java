@@ -1,4 +1,5 @@
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -38,15 +40,24 @@ public class GUI extends JFrame
     private Random rand;
     private Calendar timer;
     private ArrayList<Integer> temperatures;
-
+    
+    private JLabel realTime;
+      
 	public GUI()
 	{
 		super("Temperature graph");//add title to frame
-		setLayout(new GridLayout());
+		setLayout(null);
 		
 		temperatures = new ArrayList<Integer>();
 		rand = new Random();
 		
+		setSize(830, 830);
+		
+
+		realTime = new JLabel("30 °C");
+		realTime.setFont(new Font("Verdana", Font.BOLD, 50));
+		realTime.setBounds(350, 40, 300, 50);
+		add(realTime);
 		
 		//set up menu bar and sub-menus
 		menu = new JMenuBar();
@@ -80,6 +91,7 @@ public class GUI extends JFrame
 		
 		//set up graph panel
 		graph = new GraphPanel();
+		graph.setBounds(0, 0, getWidth(), getHeight());
 		
 		add(graph);
 				
@@ -111,6 +123,7 @@ public class GUI extends JFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				graph.setTempScale(C);
+				drawCurrentTemperature();
 			}
 		});
 		
@@ -120,6 +133,7 @@ public class GUI extends JFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				graph.setTempScale(F);
+				drawCurrentTemperature();
 			}
 		});
 		
@@ -166,10 +180,24 @@ public class GUI extends JFrame
 		    temperatures.add(0, x);
 		    
 			graph.updateTemperatures(temperatures);//then the graph is updated
+			
+			drawCurrentTemperature();
+
+			
 			timer = Calendar.getInstance();
 			
 		}
 	}
+	
+	public void drawCurrentTemperature()
+	{
+		if(graph.getTempScale() == C) realTime.setText(temperatures.get(0) + " °C");
+		if(graph.getTempScale() == F) realTime.setText(CtoF(temperatures.get(0)) + " °F");
+	}
 
+    public float CtoF(float x)
+    {
+    	return (float)(x * 1.8) + 32;
+    }
 
 }

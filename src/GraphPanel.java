@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -19,16 +20,21 @@ public class GraphPanel extends JPanel
 		
 	private ArrayList<Integer> temperatures;
 	
+		
 	public GraphPanel()
 	{
+		setLayout(null);
+		
 		timeScale = 60;
 		tempScale = C;
 		
 		temperatures = new ArrayList<Integer>();
     	temperatures.add(30);
-
+    	
 		setVisible(true);
-		setSize(512, 512);
+		setLocation(0, 0);
+
+		//setSize(512, 512);
 		
 		addMouseListener(new MouseAdapter()
 		{
@@ -49,7 +55,7 @@ public class GraphPanel extends JPanel
     	Font font = new Font("Verdana", Font.BOLD, 50);
     	g.setFont(font);
 
-    	drawString(g, "30 °C", 350, 50);
+    	//drawString(g, "30 °C", 350, 50);
     	
     	g.setColor(Color.red);
 		if(timeScale == 60) g.fillOval(Math.round((697)), (847 - 15 * 30), 6, 6);
@@ -147,48 +153,36 @@ public class GraphPanel extends JPanel
     public void drawTemperatures()
     {
     	Graphics g = this.getGraphics();
-    	g.setColor(Color.red);
-    	
+       	g.setColor(Color.red);
+ 	
     	//draw dots
     	for(int i = 0; i < temperatures.size() && i <= timeScale; i++)
-    	{
-    		if(timeScale == 60) g.fillOval(Math.round((697 - 10 * i)), (847 - 15 * temperatures.get(i)), 6, 6);
+    	{    		
+    	    if(timeScale == 60) g.fillOval(Math.round((697 - 10 * i)), (847 - 15 * temperatures.get(i)), 6, 6);
+    	    
     		if(timeScale == 300) g.fillOval(Math.round((int)(698 - 2 * i)), (848 - 15 * temperatures.get(i)), 4, 4);
+    		
     	}
     	
     	//draw lines connecting dots
     	for(int i = 0; i < temperatures.size() - 1 && i <= timeScale - 1; i++)
     	{
     		if(timeScale == 60) g.drawLine(Math.round(700 - 10 * i), (850 - 15 * temperatures.get(i)), Math.round(700 - 10 * (i + 1)), (850 - 15 * temperatures.get(i + 1)));
+    		
     		if(timeScale == 300) g.drawLine(Math.round(700 - 2 * i), (850 - 15 * temperatures.get(i)), Math.round(700 - 2 * (i + 1)), (850 - 15 * temperatures.get(i + 1)));
     	}
-
-    	drawCurrentTemperature(g);
-    	
-    }
     
-    public void drawCurrentTemperature(Graphics g)
-    {
-    	Font font = new Font("Verdana", Font.BOLD, 50);
-    	g.setFont(font);
-    	g.setColor(Color.black);
-    	
-    	if(tempScale == C) drawString(g, temperatures.get(0) + " °C", 350, 50);
-    	if(tempScale == F) drawString(g, CtoF(temperatures.get(0)) + " °F", 350, 50);
     }
-	
-    public float CtoF(float x)
-    {
-    	return (float)(x * 1.8) + 32;
-    }
+
+
     
     public void clear()//"clear" panel by drawing a solid rectangle
     {
     	Graphics g = this.getGraphics();
     	g.setColor(this.getBackground());
-    	g.fillRect(0, 90, this.getWidth(), this.getHeight());//clear graph
+    	g.fillRect(0, 100, this.getWidth(), this.getHeight());//clear graph
     	
-    	g.fillRect(350, 0, 300, 100);//clear current temperature
+    	//g.fillRect(350, 0, 300, 100);//clear current temperature
     }
     
     public int getTempScale()

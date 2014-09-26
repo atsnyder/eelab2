@@ -7,8 +7,8 @@ public class GraphExec
 	{
 		GUI gui = new GUI();
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gui.setResizable(false);
-		gui.setSize(820, 820);
+		//gui.setResizable(false);
+		gui.setSize(830, 830);
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
 		
