@@ -24,7 +24,7 @@ public class SerialTest implements SerialPortEventListener {
 	*/
 	public static BufferedReader input;
 	/** The output stream to the port */
-	private OutputStream output;
+	public static OutputStream output;
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
@@ -90,9 +90,9 @@ public class SerialTest implements SerialPortEventListener {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				String inputLine = input.readLine();
-				System.out.println(inputLine);
+				//System.out.println(inputLine);
 			} catch (Exception e) {
-				System.err.println(e.toString());
+				//System.err.println(e.toString());
 			}
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.

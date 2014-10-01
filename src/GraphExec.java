@@ -5,7 +5,7 @@ public class GraphExec
 {
 	public static void main(String[] args)
 	{
-		/*SerialTest main = new SerialTest();
+		SerialTest main = new SerialTest();
 		main.initialize();
 		Thread t=new Thread() {
 			public void run() {
@@ -14,7 +14,7 @@ public class GraphExec
 				try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
 			}
 		};
-		t.start();*/
+		t.start();
 		
 		
 		GUI gui = new GUI();

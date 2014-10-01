@@ -168,6 +168,14 @@ public class GUI extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				try 
+				{
+					SerialTest.output.write("on".getBytes());
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println("REMOTE ON");
 			}
 		});
@@ -177,6 +185,14 @@ public class GUI extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				try 
+				{
+					SerialTest.output.write("off".getBytes());
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
 				System.out.println("REMOTE OFF");
 			}
 		});
@@ -188,29 +204,31 @@ public class GUI extends JFrame
 	
 	public void start()
 	{
-		int x = 0;
+		int x = -1000;
 		
 		timer = Calendar.getInstance();
 		
-		temperatures.add(0, 30);
+		//temperatures.add(0, 30);
 		
 		while(true)//infinite loops produces a random integer each second and adds it to the arraylist
 		{
 			while(timer.getTimeInMillis() + 1000 > Calendar.getInstance().getTimeInMillis());//get data every second
 		
-	//		try {
+			try {
 				
-		//		x = Integer.parseInt(SerialTest.input.readLine());
+				x = Integer.parseInt(SerialTest.input.readLine());
 				//x = Integer.getInteger(SerialTest.input.readLine());
-		//	} catch (IOException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
-			//	e.printStackTrace();
-		//	}//
+				//e.printStackTrace();
+			}//
 
-			x = temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
+		//	x = temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
 			
-			if(x > 50) x = 50;
-			if(x < 10) x = 10;
+			//System.out.println(x);
+			if(x == -1000);
+			else if(x > 50) x = 50;
+			else if(x < 10) x = 10;
 			
 		    temperatures.add(0, x);
 		    

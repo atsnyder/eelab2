@@ -33,8 +33,8 @@ public class GraphPanel extends JPanel
 		timeScale = 60;
 		tempScale = C;
 		
-		temperatures = new ArrayList<Integer>();
-    	temperatures.add(30);
+		//temperatures = new ArrayList<Integer>();
+    	//temperatures.add(30);
     	
 		setVisible(true);
 		
@@ -199,29 +199,37 @@ public class GraphPanel extends JPanel
     	//draw dots
     	for(int i = 0; i < temperatures.size() && i <= timeScale; i++)
     	{    		
-    	    if(timeScale == 60) g.fillOval(Math.round((697 - 10 * i)), (847 - 15 * temperatures.get(i)), 6, 6);
+    		if(temperatures.get(i) != -1000)
+    		{
+    	        if(timeScale == 60) g.fillOval(Math.round((697 - 10 * i)), (847 - 15 * temperatures.get(i)), 6, 6);
     	    
-    		if(timeScale == 300) g.fillOval(Math.round((int)(698 - 2 * i)), (848 - 15 * temperatures.get(i)), 4, 4);
-    		
+    	    	if(timeScale == 300) g.fillOval(Math.round((int)(698 - 2 * i)), (848 - 15 * temperatures.get(i)), 4, 4);
+    		}
     	}
     	
     	//draw lines connecting dots
     	for(int i = 0; i < temperatures.size() - 1 && i <= timeScale - 1; i++)
     	{
-    		if(timeScale == 60) g.drawLine(Math.round(700 - 10 * i), (850 - 15 * temperatures.get(i)), Math.round(700 - 10 * (i + 1)), (850 - 15 * temperatures.get(i + 1)));
+    		if(temperatures.get(i) != -1000 && temperatures.get(i + 1) != -1000)
+    		{
+    		    if(timeScale == 60) g.drawLine(Math.round(700 - 10 * i), (850 - 15 * temperatures.get(i)), Math.round(700 - 10 * (i + 1)), (850 - 15 * temperatures.get(i + 1)));
     		
-    		if(timeScale == 300) g.drawLine(Math.round(700 - 2 * i), (850 - 15 * temperatures.get(i)), Math.round(700 - 2 * (i + 1)), (850 - 15 * temperatures.get(i + 1)));
+    	    	if(timeScale == 300) g.drawLine(Math.round(700 - 2 * i), (850 - 15 * temperatures.get(i)), Math.round(700 - 2 * (i + 1)), (850 - 15 * temperatures.get(i + 1)));
+    		}
     	}
-    		
+    	
     	AT.setTransform(backupAT);
     }
     
     public void drawCurrentTemperature(Graphics g)
     {
     	g.setFont(new Font("Verdana", Font.BOLD, 50));
-    	if(tempScale == C) g.drawString(temperatures.get(0) + " °C", 350, 50);
-    	if(tempScale == F) g.drawString(CtoF(temperatures.get(0)) + " °F", 350, 50);
-    	    	
+    	if(temperatures.size() > 0)
+    	{
+    		if(temperatures.get(0) == -1000) g.drawString("Error!", 350, 50); 
+    		else if(tempScale == C) g.drawString(temperatures.get(0) + " °C", 350, 50);
+    		else if(tempScale == F) g.drawString(CtoF(temperatures.get(0)) + " °F", 350, 50);
+    	}    	
     }
     
     public double CtoF(double x)
@@ -249,7 +257,7 @@ public class GraphPanel extends JPanel
 
     	  
     	g.setColor(this.getBackground());
-    	g.fillRect(0, 100, 1000, 1000);//clear graph
+    	g.fillRect(0, 95, 1000, 1000);//clear graph
     	
     	g.fillRect(350, 10, 300, 50);//clear current temperature
     	
