@@ -1,8 +1,11 @@
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
@@ -20,11 +23,13 @@ public class GraphPanel extends JPanel
 		
 	private ArrayList<Integer> temperatures;
 	
+	private double zoom;
+	
 		
 	public GraphPanel()
 	{
-		setLayout(null);
-		
+		setLayout(new FlowLayout());
+			
 		timeScale = 60;
 		tempScale = C;
 		
@@ -32,7 +37,10 @@ public class GraphPanel extends JPanel
     	temperatures.add(30);
     	
 		setVisible(true);
-		setLocation(0, 0);
+		
+		zoom = 1;
+
+		//setLocation(0, 0);
 
 		//setSize(512, 512);
 		
@@ -43,26 +51,27 @@ public class GraphPanel extends JPanel
 				System.out.println(ME.getX() + " " + ME.getY());
 			}
 		});
+		
+		System.out.println(getHeight());
+		
 	}
     
     @Override
     public void paintComponent(Graphics g)//initial draw
     {	
-    	g.setColor(Color.black);
+    	Graphics2D g2 = (Graphics2D) g;
+    	
+    	AffineTransform backupAT = g2.getTransform();
+    	AffineTransform AT = new AffineTransform(backupAT);
+    	
+    	AT.scale(zoom, zoom);
+    	
+    	g2.setTransform(AT);
+    
 
     	drawAxes(g);
     	
-    	Font font = new Font("Verdana", Font.BOLD, 50);
-    	g.setFont(font);
-
-    	//drawString(g, "30 °C", 350, 50);
-    	
-    	g.setColor(Color.red);
-		if(timeScale == 60) g.fillOval(Math.round((697)), (847 - 15 * 30), 6, 6);
-		
-    	//drawTimeAxis(g, 60);
-    	//drawTempAxis(g, C);
-    	//draw temperature axis
+		AT.setTransform(backupAT);
 
     }
     
@@ -91,17 +100,37 @@ public class GraphPanel extends JPanel
     }
     
     public void redraw(Graphics g)
-    {
-    	clear();
+    {    	
+
+    	Graphics2D g2 = (Graphics2D) g;
     	
+    	AffineTransform backupAT = g2.getTransform();
+    	AffineTransform AT = new AffineTransform(backupAT);
+    	
+    	AT.scale(zoom, zoom);
+    	
+    	g2.setTransform(AT);
+    	
+    	clear();
+
     	drawAxes(g);
     	drawTemperatures();
+    	drawCurrentTemperature(g);
+    	
+		AT.setTransform(backupAT);
+
     }
     
     public void drawAxes(Graphics g)
     {
     	drawTimeAxis(g);
     	drawTempAxis(g);
+    }
+    
+    public void setScale(double x, int width, int height)
+    {
+    	setSize(width, height);
+    	zoom = x;
     }
     
     public void drawTimeAxis(Graphics g)
@@ -153,6 +182,18 @@ public class GraphPanel extends JPanel
     public void drawTemperatures()
     {
     	Graphics g = this.getGraphics();
+    	
+    	Graphics2D g2 = (Graphics2D) g;
+    	
+    	AffineTransform backupAT = g2.getTransform();
+    	AffineTransform AT = new AffineTransform(backupAT);
+    	
+    	AT.scale(zoom, zoom);
+    	
+    	g2.setTransform(AT);
+
+
+		
        	g.setColor(Color.red);
  	
     	//draw dots
@@ -171,18 +212,47 @@ public class GraphPanel extends JPanel
     		
     		if(timeScale == 300) g.drawLine(Math.round(700 - 2 * i), (850 - 15 * temperatures.get(i)), Math.round(700 - 2 * (i + 1)), (850 - 15 * temperatures.get(i + 1)));
     	}
-    
+    		
+    	AT.setTransform(backupAT);
     }
+    
+    public void drawCurrentTemperature(Graphics g)
+    {
+    	g.setFont(new Font("Verdana", Font.BOLD, 50));
+    	if(tempScale == C) g.drawString(temperatures.get(0) + " °C", 350, 50);
+    	if(tempScale == F) g.drawString(CtoF(temperatures.get(0)) + " °F", 350, 50);
+    	    	
+    }
+    
+    public double CtoF(double x)
+    {
+    	return round((x * 1.8 + 32), 2);
+    }
+    
 
 
     
     public void clear()//"clear" panel by drawing a solid rectangle
     {
     	Graphics g = this.getGraphics();
-    	g.setColor(this.getBackground());
-    	g.fillRect(0, 100, this.getWidth(), this.getHeight());//clear graph
     	
-    	//g.fillRect(350, 0, 300, 100);//clear current temperature
+
+    	Graphics2D g2 = (Graphics2D) g;
+    	
+    	AffineTransform backupAT = g2.getTransform();
+    	AffineTransform AT = new AffineTransform(backupAT);
+    	
+    	AT.scale(zoom, zoom);
+    	
+    	g2.setTransform(AT);
+
+
+    	  
+    	g.setColor(this.getBackground());
+    	g.fillRect(0, 100, 1000, 1000);//clear graph
+    	
+    	g.fillRect(350, 10, 300, 50);//clear current temperature
+    	
     }
     
     public int getTempScale()
@@ -194,4 +264,9 @@ public class GraphPanel extends JPanel
     	return timeScale;
     }
     
+    private static double round (double value, int precision) 
+    {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
 }

@@ -1,8 +1,13 @@
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,10 +60,10 @@ public class GUI extends JFrame
 		setSize(830, 830);
 		
 
-		realTime = new JLabel("30 °C");
-		realTime.setFont(new Font("Verdana", Font.BOLD, 50));
-		realTime.setBounds(350, 40, 300, 50);
-		add(realTime);
+		//realTime = new JLabel("30 °C");
+		//realTime.setFont(new Font("Verdana", Font.BOLD, 50));
+		//realTime.setBounds(350, 40, 300, 50);
+		//add(realTime);
 		
 		//set up menu bar and sub-menus
 		menu = new JMenuBar();
@@ -92,11 +97,33 @@ public class GUI extends JFrame
 		
 		//set up graph panel
 		graph = new GraphPanel();
-		graph.setBounds(0, 0, getWidth(), getHeight());
+		graph.setBounds(0, 0, (int)(getWidth()*.5), (int)(getHeight()*.5));
+		graph.setPreferredSize(new Dimension(getWidth(), getHeight()));
 		
 		add(graph);
 				
 		graph.setVisible(true);
+		
+		addComponentListener(new ComponentAdapter() 
+		{
+			@Override
+			public void componentResized(ComponentEvent e)
+			{
+				//System.out.println(e.getComponent().getWidth());
+				//e.getComponent().setSize(getWidth(), getWidth());
+				//setSize(new Dimension(getWidth(), getWidth()));
+				if(getWidth() < getHeight()) 
+				{
+					
+ 					graph.setScale((double)(getWidth() - 15) / 815, getWidth(), getHeight());
+				}
+				else 
+				{	
+					graph.setScale((double)(getHeight() - 60) / 770, getWidth(), getHeight());
+			    }
+
+			}
+		});
 		
 		
 		//menu actionListeners
@@ -124,7 +151,6 @@ public class GUI extends JFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				graph.setTempScale(C);
-				drawCurrentTemperature();
 			}
 		});
 		
@@ -134,7 +160,6 @@ public class GUI extends JFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				graph.setTempScale(F);
-				drawCurrentTemperature();
 			}
 		});
 		
@@ -173,15 +198,17 @@ public class GUI extends JFrame
 		{
 			while(timer.getTimeInMillis() + 1000 > Calendar.getInstance().getTimeInMillis());//get data every second
 		
-			try {
+	//		try {
 				
-				x = Integer.parseInt(SerialTest.input.readLine());
+		//		x = Integer.parseInt(SerialTest.input.readLine());
 				//x = Integer.getInteger(SerialTest.input.readLine());
-			} catch (IOException e) {
+		//	} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}//temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
+			//	e.printStackTrace();
+		//	}//
 
+			x = temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
+			
 			if(x > 50) x = 50;
 			if(x < 10) x = 10;
 			
@@ -189,7 +216,7 @@ public class GUI extends JFrame
 		    
 			graph.updateTemperatures(temperatures);//then the graph is updated
 			
-			drawCurrentTemperature();
+			//drawCurrentTemperature();
 
 			
 			timer = Calendar.getInstance();
@@ -197,15 +224,6 @@ public class GUI extends JFrame
 		}
 	}
 	
-	public void drawCurrentTemperature()
-	{
-		if(graph.getTempScale() == C) realTime.setText(temperatures.get(0) + " °C");
-		if(graph.getTempScale() == F) realTime.setText(CtoF(temperatures.get(0)) + " °F");
-	}
 
-    public float CtoF(float x)
-    {
-    	return (float)(x * 1.8) + 32;
-    }
 
 }
