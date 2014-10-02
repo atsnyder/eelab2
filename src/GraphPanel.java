@@ -25,6 +25,7 @@ public class GraphPanel extends JPanel
 	
 	private double zoom;
 	
+	private int realTime;
 		
 	public GraphPanel()
 	{
@@ -43,6 +44,8 @@ public class GraphPanel extends JPanel
 		//setLocation(0, 0);
 
 		//setSize(512, 512);
+		
+		realTime = -1000;
 		
 		addMouseListener(new MouseAdapter()
 		{
@@ -224,7 +227,7 @@ public class GraphPanel extends JPanel
     public void drawCurrentTemperature(Graphics g)
     {
     	g.setFont(new Font("Verdana", Font.BOLD, 50));
-    	if(temperatures.size() > 0)
+    	if(realTime != -1000)
     	{
     		if(temperatures.get(0) == -1000) g.drawString("Error!", 350, 50); 
     		else if(tempScale == C) g.drawString(temperatures.get(0) + " °C", 350, 50);
@@ -270,6 +273,11 @@ public class GraphPanel extends JPanel
     public int getTimeScale()
     {
     	return timeScale;
+    }
+    
+    public void setRealTime(int x)
+    {
+    	realTime = x;
     }
     
     private static double round (double value, int precision) 
