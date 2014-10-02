@@ -170,7 +170,7 @@ public class GUI extends JFrame
 			{
 				try 
 				{
-					SerialTest.output.write("on".getBytes());
+					SerialTest.output.write("y".getBytes());
 				} catch (IOException e)
 				{
 					// TODO Auto-generated catch block
@@ -187,7 +187,7 @@ public class GUI extends JFrame
 			{
 				try 
 				{
-					SerialTest.output.write("off".getBytes());
+					SerialTest.output.write("n".getBytes());
 				} catch (IOException e)
 				{
 					// TODO Auto-generated catch block
@@ -226,6 +226,8 @@ public class GUI extends JFrame
 		//	x = temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
 			
 			//System.out.println(x);
+			graph.setRealTime(x);
+			
 			if(x == -1000);
 			else if(x > 50) x = 50;
 			else if(x < 10) x = 10;
