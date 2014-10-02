@@ -214,18 +214,20 @@ public class GUI extends JFrame
 		{
 			while(timer.getTimeInMillis() + 1000 > Calendar.getInstance().getTimeInMillis());//get data every second
 		
-			try {
+		//	try {
 				
-				x = Integer.parseInt(SerialTest.input.readLine());
-				//x = Integer.getInteger(SerialTest.input.readLine());
-			} catch (IOException e) {
+				x = Integer.parseInt(SerialTest.inputLine);
+				//SerialTest.inputLine = "-123";
+				
+							//x = Integer.getInteger(SerialTest.input.readLine());
+			//} catch (IOException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
-			}//
+		//	}//
 
 		//	x = temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
 			
-			//System.out.println(x);
+			System.out.println(x);
 			graph.setRealTime(x);
 			
 			if(x == -1000);

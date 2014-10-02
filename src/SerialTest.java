@@ -29,6 +29,8 @@ public class SerialTest implements SerialPortEventListener {
 	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
 	private static final int DATA_RATE = 9600;
+	
+	public static String inputLine = "-1000";
 
 	public void initialize() {
                 // the next line is for Raspberry Pi and 
@@ -89,14 +91,17 @@ public class SerialTest implements SerialPortEventListener {
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
-				String inputLine = input.readLine();
+				if(inputLine == "-123") initialize();
+				inputLine = input.readLine();
 				//System.out.println(inputLine);
 			} catch (Exception e) {
 				//System.err.println(e.toString());
 			}
 		}
+
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
+
 
 	/*public static void main(String[] args) throws Exception {
 		SerialTest main = new SerialTest();

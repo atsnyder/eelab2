@@ -229,10 +229,12 @@ public class GraphPanel extends JPanel
     	g.setFont(new Font("Verdana", Font.BOLD, 50));
     	if(realTime != -1000)
     	{
-    		if(temperatures.get(0) == -1000) g.drawString("Error!", 350, 50); 
-    		else if(tempScale == C) g.drawString(temperatures.get(0) + " °C", 350, 50);
+    		if(tempScale == C) g.drawString(temperatures.get(0) + " °C", 350, 50);
     		else if(tempScale == F) g.drawString(CtoF(temperatures.get(0)) + " °F", 350, 50);
-    	}    	
+    	}    
+    	
+		if(temperatures.get(0) == -1000) g.drawString("Sensor unplugged!", 350, 50); 
+    	
     }
     
     public double CtoF(double x)
@@ -262,7 +264,7 @@ public class GraphPanel extends JPanel
     	g.setColor(this.getBackground());
     	g.fillRect(0, 95, 1000, 1000);//clear graph
     	
-    	g.fillRect(350, 10, 300, 50);//clear current temperature
+    	g.fillRect(350, 10, 600, 50);//clear current temperature
     	
     }
     
