@@ -97,8 +97,8 @@ public class GUI extends JFrame
 		
 		//set up graph panel
 		graph = new GraphPanel();
-		graph.setBounds(0, 0, (int)(getWidth()*.5), (int)(getHeight()*.5));
-		graph.setPreferredSize(new Dimension(getWidth(), getHeight()));
+		//graph.setBounds(0, 0, (int)(getWidth()*.5), (int)(getHeight()*.5));
+		//graph.setPreferredSize(new Dimension(getWidth(), getHeight()));
 		
 		add(graph);
 				
@@ -115,11 +115,11 @@ public class GUI extends JFrame
 				if(getWidth() < getHeight()) 
 				{
 					
- 					graph.setScale((double)(getWidth() - 15) / 815, getWidth(), getHeight());
+ 					graph.setScale((double)(getWidth() - 50) / 830, getWidth(), getHeight());
 				}
 				else 
 				{	
-					graph.setScale((double)(getHeight() - 60) / 770, getWidth(), getHeight());
+					graph.setScale((double)(getHeight() - 50) / 830, getWidth(), getHeight());
 			    }
 
 			}
