@@ -170,7 +170,7 @@ public class GUI extends JFrame
 			{
 				try 
 				{
-					SerialTest.output.write("on".getBytes());
+					SerialTest.output.write("y".getBytes());
 				} catch (IOException e)
 				{
 					// TODO Auto-generated catch block
@@ -187,7 +187,7 @@ public class GUI extends JFrame
 			{
 				try 
 				{
-					SerialTest.output.write("off".getBytes());
+					SerialTest.output.write("n".getBytes());
 				} catch (IOException e)
 				{
 					// TODO Auto-generated catch block
