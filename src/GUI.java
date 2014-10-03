@@ -206,6 +206,8 @@ public class GUI extends JFrame
 	{
 		int x = -1000;
 		
+		SerialTest tester = new SerialTest();
+		
 		timer = Calendar.getInstance();
 		
 		//temperatures.add(0, 30);
@@ -230,7 +232,10 @@ public class GUI extends JFrame
 			System.out.println(x);
 			graph.setRealTime(x);
 			
-			if(x == -1000);
+			if(x == -1000)
+			{
+				tester.initialize();
+			}
 			else if(x > 50) x = 50;
 			else if(x < 10) x = 10;
 			
