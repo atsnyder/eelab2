@@ -49,6 +49,10 @@ public class GUI extends JFrame
     
     private JLabel realTime;
       
+    private boolean remoteOn;
+    
+	private SerialWorker serialWorker;
+
 	public GUI()
 	{
 		super("Temperature graph");//add title to frame
@@ -56,6 +60,10 @@ public class GUI extends JFrame
 		
 		temperatures = new ArrayList<Integer>();
 		rand = new Random();
+		
+		remoteOn = false;
+		
+		serialWorker = new SerialWorker();
 		
 		setSize(830, 830);
 		
@@ -164,27 +172,34 @@ public class GUI extends JFrame
 		});
 		
 		on.addActionListener(new ActionListener()
-		{
+		{			
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				try 
+				remoteOn = true;
+				
+				serialWorker.run();
+
+				/*try 
 				{
 					SerialTest.output.write("y".getBytes());
 				} catch (IOException e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 				System.out.println("REMOTE ON");
 			}
 		});
 		
 		off.addActionListener(new ActionListener()
 		{
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				remoteOn = false;
+
 				try 
 				{
 					SerialTest.output.write("n".getBytes());
@@ -204,7 +219,9 @@ public class GUI extends JFrame
 	
 	public void start()
 	{
-		int x = -1000;
+		int x = -123;
+		int serialTimer = 0;
+		int sTimer = 0;
 		
 		SerialTest tester = new SerialTest();
 		
@@ -215,12 +232,11 @@ public class GUI extends JFrame
 		while(true)//infinite loops produces a random integer each second and adds it to the arraylist
 		{
 			while(timer.getTimeInMillis() + 1000 > Calendar.getInstance().getTimeInMillis());//get data every second
+
+			
 		
 		//	try {
-				
-				x = Integer.parseInt(SerialTest.inputLine);
-				//SerialTest.inputLine = "-123";
-				
+		
 							//x = Integer.getInteger(SerialTest.input.readLine());
 			//} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -228,16 +244,41 @@ public class GUI extends JFrame
 		//	}//
 
 		//	x = temperatures.get(0) + (rand.nextInt(3) - 1); //send in temperature here
+		
+			
+			x = Integer.parseInt(SerialTest.inputLine);
+			SerialTest.inputLine = "-123";
 			
 			System.out.println(x);
 			graph.setRealTime(x);
+			//SerialTest.inputLine = "-123";
 			
-			if(x == -1000)
+			if(x == -123)
 			{
-				tester.initialize();
+				sTimer = 1;
+				//tester.close();
+				//tester = new SerialTest();
+					
+				serialTimer++;
+				if(serialTimer % 2 == 0) 
+				{
+					tester.close();
+					tester.initialize();
+				}
+				
+			}
+			else if(x == -1000)
+			{
+				
+			}
+			else if(x == -600)
+			{
+				
 			}
 			else if(x > 50) x = 50;
 			else if(x < 10) x = 10;
+		
+			
 			
 		    temperatures.add(0, x);
 		    
@@ -245,6 +286,44 @@ public class GUI extends JFrame
 			
 			//drawCurrentTemperature();
 
+			
+			/*try 
+			{
+			//	System.out.println(SerialTest.serialPort);
+				
+				if(remoteOn)
+				{	
+					sTimer++;
+					if(sTimer % 10 == 0 && temperatures.get(0) != -123) 
+					{
+						sTimer = 1;
+						SerialTest.output.write("y".getBytes());
+					}
+			    }
+				//else SerialTest.output.write("n".getBytes());
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			catch(NullPointerException n)
+			{
+				n.printStackTrace();
+			} 
+			finally
+			{
+				try
+				{
+				    if(SerialTest.output != null) SerialTest.output.close();
+				}
+				catch(IOException e2)
+				{
+				   e2.printStackTrace();	
+				}
+			}*/
+			
+			
+			
 			
 			timer = Calendar.getInstance();
 			

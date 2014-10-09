@@ -1,3 +1,7 @@
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 
@@ -19,10 +23,30 @@ public class GraphExec
 		
 		GUI gui = new GUI();
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gui.addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
+				
+				System.out.println("close gui");
+				/*try 
+				{
+					//SerialTest.input.close();
+					//SerialTest.output.close();
+				} catch (IOException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+			}
+			
+		});
 		//gui.setResizable(false);
 		gui.setSize(830, 830);
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
+		
+		
 		
 		gui.start();
 	}

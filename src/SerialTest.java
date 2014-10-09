@@ -1,10 +1,13 @@
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import gnu.io.CommPortIdentifier; 
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
+
 import java.util.Enumeration;
 
 
@@ -30,7 +33,7 @@ public class SerialTest implements SerialPortEventListener {
 	/** Default bits per second for COM port. */
 	private static final int DATA_RATE = 9600;
 	
-	public static String inputLine = "-1000";
+	public static String inputLine = "-123";
 
 	public void initialize() {
                 // the next line is for Raspberry Pi and 
@@ -91,7 +94,6 @@ public class SerialTest implements SerialPortEventListener {
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
-				if(inputLine == "-123") initialize();
 				inputLine = input.readLine();
 				//System.out.println(inputLine);
 			} catch (Exception e) {
