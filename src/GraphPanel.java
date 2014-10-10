@@ -33,18 +33,11 @@ public class GraphPanel extends JPanel
 			
 		timeScale = 60;
 		tempScale = C;
-				
-		//temperatures = new ArrayList<Integer>();
-    	//temperatures.add(30);
-    	
+
 		setVisible(true);
 		
-		zoom = 1;
+		zoom = 1;//default zoom is 1
 
-		//setLocation(0, 0);
-
-		//setSize(512, 512);
-		
 		realTime = -1000;
 		
 		addMouseListener(new MouseAdapter()
@@ -54,9 +47,7 @@ public class GraphPanel extends JPanel
 				System.out.println(ME.getX() + " " + ME.getY());
 			}
 		});
-		
-		System.out.println(getHeight());
-		
+				
 	}
     
     @Override
@@ -64,10 +55,11 @@ public class GraphPanel extends JPanel
     {	
     	Graphics2D g2 = (Graphics2D) g;
     	
+    	//affine transform enables resizing
     	AffineTransform backupAT = g2.getTransform();
     	AffineTransform AT = new AffineTransform(backupAT);
     	
-    	AT.scale(zoom, zoom);
+    	AT.scale(zoom, zoom);//set zoom
     	
     	g2.setTransform(AT);
     
@@ -78,16 +70,19 @@ public class GraphPanel extends JPanel
 
     }
     
+    //draw a string on the graph at (x, y)
     public void drawString(Graphics g, String s, int x, int y)
     {    	    	
     	g.drawString(s, x, y);
     }
     
+    //draw line from (x1, y1) to (x2, y2)
     public void drawLine(Graphics g, int x1, int y1, int x2, int y2)
     {
     	g.drawLine(x1, y1, x2, y2);
     }
     
+    //set time scale to either 60 or 300
     public void setTimeScale(int x)
     {
     	timeScale = x;
@@ -95,6 +90,7 @@ public class GraphPanel extends JPanel
     	redraw(g); 
     }
     
+    //set temperature scale to either C or F
     public void setTempScale(int x)
     {
     	tempScale = x;
@@ -130,6 +126,7 @@ public class GraphPanel extends JPanel
     	drawTempAxis(g);
     }
     
+    //set new scale when window is resized
     public void setScale(double x, int width, int height)
     {
     	setSize(width, height);
@@ -169,7 +166,7 @@ public class GraphPanel extends JPanel
         drawLine(g, 690, 400, 710, 400);//middle tick
     	drawLine(g, 690, 700, 710, 700);//lowest tick
 
-    	drawString(g, "(°C)", 765, 350);
+    	drawString(g, "(C)", 765, 350);
         drawString(g, "10", 720, 705);
         drawString(g, "50", 720, 105);
         drawString(g, "30", 720, 405);
@@ -230,8 +227,8 @@ public class GraphPanel extends JPanel
     	g.setFont(new Font("Verdana", Font.BOLD, 50));
     	if(realTime != -1000 && realTime != -123 && realTime != -600)
     	{
-    		if(tempScale == C) g.drawString(temperatures.get(0) + " °C", 350, 50);
-    		else if(tempScale == F) g.drawString(CtoF(temperatures.get(0)) + " °F", 350, 50);
+    		if(tempScale == C) g.drawString(temperatures.get(0) + " C", 350, 50);
+    		else if(tempScale == F) g.drawString(CtoF(temperatures.get(0)) + " F", 350, 50);
     	}    
     	
     	if(temperatures.size() != 1)
