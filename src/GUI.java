@@ -202,7 +202,8 @@ public class GUI extends JFrame
 	public void start()
 	{
 		int x = -123;
-		int serialTimer = 0;
+		int serialTimer = 1000;
+		int readTimer = 1000;
 		
 		SerialTest tester = new SerialTest();
 		
@@ -210,8 +211,15 @@ public class GUI extends JFrame
 				
 		while(true)//infinite loops produces a random integer each second and adds it to the arraylist
 		{
-			while(timer.getTimeInMillis() + 1000 > Calendar.getInstance().getTimeInMillis());//get data every second
+			if(temperatures.size() > 0)
+			{
+				//if(temperatures.get(0) == -1000 || temperatures.get(0) == -123 || temperatures.get(0) == -600) readTimer = 250;
+				//else readTimer = 1000;
+			}
+			while(timer.getTimeInMillis() + readTimer > Calendar.getInstance().getTimeInMillis());//get data every second
 
+
+			
 			x = Integer.parseInt(SerialTest.inputLine);
 			SerialTest.inputLine = "-123";//assume error code
 			

@@ -227,8 +227,8 @@ public class GraphPanel extends JPanel
     	g.setFont(new Font("Verdana", Font.BOLD, 50));
     	if(realTime != -1000 && realTime != -123 && realTime != -600)
     	{
-    		if(tempScale == C) g.drawString(temperatures.get(0) + " C", 350, 50);
-    		else if(tempScale == F) g.drawString(CtoF(temperatures.get(0)) + " F", 350, 50);
+    		if(tempScale == C) g.drawString(realTime + " C", 350, 50);
+    		else if(tempScale == F) g.drawString(CtoF(realTime) + " F", 350, 50);
     	}    
     	
     	if(temperatures.size() != 1)

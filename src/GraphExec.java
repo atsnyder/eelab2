@@ -23,6 +23,7 @@ public class GraphExec
 		
 		GUI gui = new GUI();
 		gui.setSize(830, 830);
+		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
 		
