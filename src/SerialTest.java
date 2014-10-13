@@ -1,4 +1,3 @@
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -10,6 +9,10 @@ import gnu.io.SerialPortEventListener;
 
 import java.util.Enumeration;
 
+/* This class comes from the RXTX java serial programming library.
+ * We modified the class slightly to fit our needs, but we 
+ * did not write the majority of this class.
+ */
 
 public class SerialTest implements SerialPortEventListener {
 	public static SerialPort serialPort;
@@ -41,6 +44,7 @@ public class SerialTest implements SerialPortEventListener {
                 System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
 		CommPortIdentifier portId = null;
+		@SuppressWarnings("rawtypes")
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
 
 		//First, Find an instance of serial port as set in PORT_NAMES.
@@ -93,11 +97,12 @@ public class SerialTest implements SerialPortEventListener {
 	 */
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-			try {
+			try 
+			{
 				inputLine = input.readLine();
-				//System.out.println(inputLine);
-			} catch (Exception e) {
-				//System.err.println(e.toString());
+			} catch (Exception e) 
+			{
+
 			}
 		}
 
@@ -105,17 +110,4 @@ public class SerialTest implements SerialPortEventListener {
 	}
 
 
-	/*public static void main(String[] args) throws Exception {
-		SerialTest main = new SerialTest();
-		main.initialize();
-		Thread t=new Thread() {
-			public void run() {
-				//the following line will keep this app alive for 1000 seconds,
-				//waiting for events to occur and responding to them (printing incoming messages to console).
-				try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
-			}
-		};
-		t.start();
-		System.out.println("Started");
-	}*/
 }

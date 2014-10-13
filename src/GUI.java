@@ -1,20 +1,12 @@
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -43,12 +35,9 @@ public class GUI extends JFrame
 	
     private GraphPanel graph;
     
-    private Random rand;
     private Calendar timer;
     private ArrayList<Integer> temperatures;
-    
-    private JLabel realTime;
-      
+          
     private boolean remoteOn;
     
 	public GUI()
@@ -57,7 +46,6 @@ public class GUI extends JFrame
 		setLayout(null);
 		
 		temperatures = new ArrayList<Integer>();
-		rand = new Random();
 		
 		remoteOn = false;
 				
@@ -169,7 +157,6 @@ public class GUI extends JFrame
 					SerialTest.output.write("y".getBytes());
 				} catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -188,7 +175,6 @@ public class GUI extends JFrame
 					SerialTest.output.write("n".getBytes());
 				} catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}			
 			}
@@ -255,7 +241,6 @@ public class GUI extends JFrame
 				}
 				catch (IOException e) 
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

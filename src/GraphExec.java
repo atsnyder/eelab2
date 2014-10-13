@@ -1,6 +1,3 @@
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -20,7 +17,7 @@ public class GraphExec
 		};
 		t.start();
 		
-		
+		//set up GUI window
 		GUI gui = new GUI();
 		gui.setSize(830, 830);
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

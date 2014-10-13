@@ -3,12 +3,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -39,14 +35,6 @@ public class GraphPanel extends JPanel
 		zoom = 1;//default zoom is 1
 
 		realTime = -1000;
-		
-		addMouseListener(new MouseAdapter()
-		{
-			public void mousePressed(MouseEvent ME)
-			{
-				System.out.println(ME.getX() + " " + ME.getY());
-			}
-		});
 				
 	}
     
@@ -56,18 +44,14 @@ public class GraphPanel extends JPanel
     	Graphics2D g2 = (Graphics2D) g;
     	
     	//affine transform enables resizing
-    	AffineTransform backupAT = g2.getTransform();
-    	AffineTransform AT = new AffineTransform(backupAT);
+    	AffineTransform AT = new AffineTransform(g2.getTransform());
     	
     	AT.scale(zoom, zoom);//set zoom
     	
     	g2.setTransform(AT);
     
-
     	drawAxes(g);
-    	
-		AT.setTransform(backupAT);
-
+    
     }
     
     //draw a string on the graph at (x, y)
@@ -103,8 +87,7 @@ public class GraphPanel extends JPanel
 
     	Graphics2D g2 = (Graphics2D) g;
     	
-    	AffineTransform backupAT = g2.getTransform();
-    	AffineTransform AT = new AffineTransform(backupAT);
+    	AffineTransform AT = new AffineTransform(g2.getTransform());
     	
     	AT.scale(zoom, zoom);
     	
@@ -116,8 +99,6 @@ public class GraphPanel extends JPanel
     	drawTemperatures();
     	drawCurrentTemperature(g);
     	
-		AT.setTransform(backupAT);
-
     }
     
     public void drawAxes(Graphics g)
@@ -173,27 +154,26 @@ public class GraphPanel extends JPanel
 
     	
     }
+    
     public void updateTemperatures(ArrayList<Integer> temps)
     {
     	temperatures = temps;
     	redraw(this.getGraphics());
-    	
     }
+    
     public void drawTemperatures()
     {
     	Graphics g = this.getGraphics();
     	
     	Graphics2D g2 = (Graphics2D) g;
     	
-    	AffineTransform backupAT = g2.getTransform();
-    	AffineTransform AT = new AffineTransform(backupAT);
+    	AffineTransform AT = new AffineTransform(g2.getTransform());
     	
     	AT.scale(zoom, zoom);
     	
     	g2.setTransform(AT);
 
 
-		
        	g.setColor(Color.red);
  	
     	//draw dots
@@ -219,7 +199,6 @@ public class GraphPanel extends JPanel
     		}
     	}
     	
-    	AT.setTransform(backupAT);
     }
     
     public void drawCurrentTemperature(Graphics g)
@@ -254,8 +233,7 @@ public class GraphPanel extends JPanel
 
     	Graphics2D g2 = (Graphics2D) g;
     	
-    	AffineTransform backupAT = g2.getTransform();
-    	AffineTransform AT = new AffineTransform(backupAT);
+    	AffineTransform AT = new AffineTransform(g2.getTransform());
     	
     	AT.scale(zoom, zoom);
     	
